@@ -33,6 +33,7 @@ export class OlympicService {
   getOlympics(): Observable<IOlympic[]> {
     return this.olympics$.asObservable();
   }
+
 }
 
 

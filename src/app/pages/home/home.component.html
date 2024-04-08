@@ -2,4 +2,9 @@
 <hr />
 <p>{{ (olympics$ | async)?.length }} data loaded</p>
 <p>{{ (olympics$ | async | json)}}</p>
-
+<ngx-charts-pie-chart
+  [results]="getNumberOfMedalByCountry()"
+  [legend]="true"
+  [labels]="true"
+  >
+</ngx-charts-pie-chart>
