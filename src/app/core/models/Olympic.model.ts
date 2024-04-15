@@ -1,4 +1,4 @@
-import { IParticipation } from "./Participation";
+import { IParticipation } from "./Participation.model";
 
 export interface IOlympic {
     id: string;

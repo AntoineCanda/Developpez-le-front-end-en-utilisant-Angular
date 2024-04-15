@@ -1,10 +1,13 @@
 <h2>Olympic games app</h2>
 <hr />
-<p>{{ (olympics$ | async)?.length }} data loaded</p>
-<p>{{ (olympics$ | async | json)}}</p>
+
 <ngx-charts-pie-chart
-  [results]="getNumberOfMedalByCountry()"
-  [legend]="true"
-  [labels]="true"
+  [results]="dataPieChart$ | async"
+  [gradient]="gradient"
+  [legend]="showLegend"
+  [labels]="showLabels"
+  [doughnut]="isDoughnut"
+  [view]="view"
   >
 </ngx-charts-pie-chart>
+

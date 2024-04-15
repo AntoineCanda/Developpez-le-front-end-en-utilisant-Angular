@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, map, mergeMap, of, reduce } from 'rxjs';
-import { IOlympic } from 'src/app/core/models/Olympic';
+import { Observable } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { IParticipation } from 'src/app/core/models/Participation';
+import { ISeriesData } from 'src/app/core/models/Data.model';
 
 @Component({
   selector: 'app-home',
@@ -11,31 +10,30 @@ import { IParticipation } from 'src/app/core/models/Participation';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  public olympics$: Observable<IOlympic[]> = of([]);
+ 
+  dataPieChart$!: Observable<ISeriesData[]>;
+  dataPieChart!: ISeriesData[];
 
-  constructor(private olympicService: OlympicService) {}
+  // options
+  gradient: boolean = true;
+  showLegend: boolean = true;
+  showLabels: boolean = true;
+  isDoughnut: boolean = false;
+  view: [number,number] = [500,500];
 
+  xAxisLabel="Year of olympic Game";
+  yAxisLabel="Number of medals";
+  
+  constructor(private olympicService: OlympicService) {
+  }
+ 
+ 
+  
   ngOnInit(): void {
-    this.olympics$ = this.olympicService.getOlympics();
+    this.dataPieChart$ = this.olympicService.getDataForPieChart();
   }
 
+ 
 
-  public getNumberOfMedalByCountry(): Observable<{ name: string, value: number }[]> {
-    return this.olympics$.pipe(
-      // Utilisez mergeMap pour décomposer les participations de chaque pays en un seul flux
-      mergeMap((olympics: IOlympic[]) => olympics),
-      // Utilisez map pour transformer chaque participation en un objet avec le nom du pays et le nombre de médailles
-      map((olympic: IOlympic) => {
-        const totalMedals = olympic.participations.reduce((total: number, participation: IParticipation) => {
-          return total + participation.medalsCount;
-        }, 0);
-        return { name: olympic.country, value: totalMedals };
-      }),
-      // Utilisez reduce pour agréger les résultats en un seul tableau
-      reduce((acc: { name: string, value: number }[], curr: { name: string, value: number }) => {
-        acc.push(curr);
-        return acc;
-      }, [])
-    );
-  }
 }
+
