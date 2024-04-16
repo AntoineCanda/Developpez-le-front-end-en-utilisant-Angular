@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ISeriesData } from 'src/app/core/models/Data.model';
 
 @Component({
@@ -12,7 +11,8 @@ import { ISeriesData } from 'src/app/core/models/Data.model';
 export class HomeComponent implements OnInit {
  
   dataPieChart$!: Observable<ISeriesData[]>;
-  dataPieChart!: ISeriesData[];
+  numberOfOlympicGames$!: Observable<number>;
+  numberOfCountries$!: Observable<number>;
 
   // options
   gradient: boolean = true;
@@ -21,8 +21,6 @@ export class HomeComponent implements OnInit {
   isDoughnut: boolean = false;
   view: [number,number] = [500,500];
 
-  xAxisLabel="Year of olympic Game";
-  yAxisLabel="Number of medals";
   
   constructor(private olympicService: OlympicService) {
   }
@@ -31,6 +29,8 @@ export class HomeComponent implements OnInit {
   
   ngOnInit(): void {
     this.dataPieChart$ = this.olympicService.getDataForPieChart();
+    this.numberOfCountries$ = this.olympicService.getNumberOfCountry();
+    this.numberOfOlympicGames$ = this.olympicService.getNumberOfOlympicsGame();
   }
 
  

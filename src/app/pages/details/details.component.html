@@ -1,1 +1,14 @@
-<p>details works!</p>
+
+<p> {{ lineChartData$ |async | json}}</p>
+<p>{{ countryStatData$ |async | json}} </p>
+<div class="container">
+
+</div>
+<ngx-charts-line-chart
+  [view]="view"
+  [legend]="true"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [results]="lineChartData$ |async"
+  >
+</ngx-charts-line-chart>

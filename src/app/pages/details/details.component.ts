@@ -1,14 +1,11 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription, lastValueFrom, map, mergeMap, of, reduce, take, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ICountryStatData, ILineChartData } from 'src/app/core/models/Data.model';
-import { IOlympic } from 'src/app/core/models/Olympic.model';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
 @Component({
   selector: 'app-details',
-  standalone: true,
-  imports: [],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
 })
@@ -33,6 +30,8 @@ export class DetailsComponent implements OnInit {
   
   ngOnInit(): void {
     const countryName = this.route.snapshot.params['country'];
+    console.log(this.route.snapshot)
+    console.log(countryName)
     this.lineChartData$ = this.olympicService.getDataForLineChart(countryName);
     this.countryStatData$ = this.olympicService.getCountryStatData(countryName);
   }
