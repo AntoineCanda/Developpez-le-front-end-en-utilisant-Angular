@@ -16,10 +16,9 @@ export class HomeComponent implements OnInit {
 
   // options
   gradient: boolean = true;
-  showLegend: boolean = true;
+  showLegend: boolean = false;
   showLabels: boolean = true;
   isDoughnut: boolean = false;
-  view: [number,number] = [500,500];
 
   
   constructor(private olympicService: OlympicService) {
@@ -33,7 +32,9 @@ export class HomeComponent implements OnInit {
     this.numberOfOlympicGames$ = this.olympicService.getNumberOfOlympicsGame();
   }
 
- 
+  tooltipText(event: any): string {
+    return `${event.data.label}<br/> 🏅 ${event.data.value}`;
+  }
 
 }
 

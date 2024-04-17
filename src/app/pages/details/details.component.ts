@@ -14,26 +14,27 @@ export class DetailsComponent implements OnInit {
   lineChartData$!: Observable<ILineChartData[]>;
   countryStatData$!: Observable<ICountryStatData[]>;
 
-  // options
-  gradient: boolean = true;
-  showLegend: boolean = true;
-  showLabels: boolean = true;
-  isDoughnut: boolean = false;
-  view: [number,number] = [500,500];
-
-  xAxisLabel="Year of olympic Game";
+  // Graph options
+  xAxisLabel="Dates";
   yAxisLabel="Number of medals";
+  legend: boolean = false;
+  showLabels: boolean = true;
+  animations: boolean = true;
+  xAxis: boolean = true;
+  yAxis: boolean = true;
+  showYAxisLabel: boolean = true;
+  showXAxisLabel: boolean = true;
+  timeline: boolean = true;
   
+  countryName: string = "";
+
   constructor(private olympicService: OlympicService,
-    private route: ActivatedRoute,
-    private router: Router) { }
+    private route: ActivatedRoute) { }
   
   ngOnInit(): void {
-    const countryName = this.route.snapshot.params['country'];
-    console.log(this.route.snapshot)
-    console.log(countryName)
-    this.lineChartData$ = this.olympicService.getDataForLineChart(countryName);
-    this.countryStatData$ = this.olympicService.getCountryStatData(countryName);
+    this.countryName = this.route.snapshot.params['country'];
+    this.lineChartData$ = this.olympicService.getDataForLineChart(this.countryName);
+    this.countryStatData$ = this.olympicService.getCountryStatData(this.countryName);
   }
   
  

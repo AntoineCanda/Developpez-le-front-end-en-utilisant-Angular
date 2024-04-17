@@ -101,7 +101,6 @@ export class OlympicService {
         lineChartDataArray.push(lineChartData);
       }
   
-      console.log(lineChartDataArray);
       this.dataLineChartGraph$.next(lineChartDataArray);
 
     } catch (error) {
@@ -136,7 +135,6 @@ export class OlympicService {
         countryStatDataArray.push(countryStatData);
       }
 
-      console.log(countryStatDataArray);
       this.numberOfOlympicsGame$.next(olympicGamesYear.size);
       this.numberOfCountries$.next(countryStatDataArray.length);
       this.countryStatData$.next(countryStatDataArray);

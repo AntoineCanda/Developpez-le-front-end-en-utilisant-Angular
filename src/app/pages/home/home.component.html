@@ -1,16 +1,15 @@
 
-<div class="container">
-  <h1> Medals per country</h1>
-  <hr />
-  <div class="info-container">
+<div class="info-container">
+  <h3> Medals per country</h3>
+  <div>
     <div class="info-box">
-      <div class="title-info-box">Number of JO</div>
-      <div> {{ numberOfOlympicGames$ | async}}</div>
+      <div class="title-info-box">Number of JOs</div>
+      <div class="bold-value">{{ numberOfOlympicGames$ | async}}</div>
     </div>
   
     <div class="info-box">
-      <div class="title-info-box">Number of countries</div>
-      <div> {{ numberOfCountries$ | async}}</div>
+      <div class="title-info-box">Number of countries </div>
+      <div class="bold-value">{{ numberOfCountries$ | async}}</div>
     </div>
   
   </div>
@@ -24,7 +23,8 @@
     [legend]="showLegend"
     [labels]="showLabels"
     [doughnut]="isDoughnut"
-    [view]="view">
+    [tooltipText]="tooltipText"
+  >
   </ngx-charts-pie-chart>
 </div>
 

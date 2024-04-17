@@ -1,14 +1,37 @@
 
-<p> {{ lineChartData$ |async | json}}</p>
-<p>{{ countryStatData$ |async | json}} </p>
-<div class="container">
 
+<div class="info-container">
+    <h3> {{countryName}}</h3>
+    <div *ngIf="countryStatData$ |async as countryStat">
+      <div class="info-box">
+        <div class="title-info-box">Number of entries</div>
+        <div class="bold-value">{{ countryStat[0].totalParticipation}}</div>
+      </div>
+    
+      <div class="info-box">
+        <div class="title-info-box">Number of medals </div>
+        <div class="bold-value">{{ countryStat[0].totalMedal}}</div>
+      </div>
+    
+      <div class="info-box">
+        <div class="title-info-box">Number of athletes </div>
+        <div class="bold-value">{{ countryStat[0].totalAthlete}}</div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="chart-container" *ngIf="lineChartData$ |async as chartData">
+    <ngx-charts-line-chart
+        [legend]="legend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxis]="xAxis"
+        [yAxis]="yAxis"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [timeline]="timeline"
+        [results]="chartData"
+    >
+  </ngx-charts-line-chart>
 </div>
-<ngx-charts-line-chart
-  [view]="view"
-  [legend]="true"
-  [xAxisLabel]="xAxisLabel"
-  [yAxisLabel]="yAxisLabel"
-  [results]="lineChartData$ |async"
-  >
-</ngx-charts-line-chart>

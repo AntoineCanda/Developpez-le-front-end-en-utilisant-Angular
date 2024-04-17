@@ -1,59 +1,62 @@
 /* You can add global styles to this file, and also import other style files */
 $my-color: rgba(4,131,143,255);
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    padding: 0;
-    margin: 0;
-    justify-content: center;
-
-    .info-container{
-        width: 60%;
-        display: flex;
-        justify-content: center;
-        text-align: center;
-    }
-
-    h1 {
-        background-color: $my-color;
-        text-align: center;
-        color: white;
-        border-radius: 10px;
-        padding: 10px;
-        display: flex;
-        justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .info-box {
-        border-radius: 5px;
-        padding: 10px;
-        border: 2px solid $my-color;
-        text-align: center;
-        margin: 10px;
-    }
-
-    .title-info-box {
-        color: grey;
-    }
-}
-
-.goBackBtn {
-    border: 2px solid black;
-    padding: 10px;
-    text-align: center;
-    max-width: 10%;
-    margin: 10px;
-    border-radius: 10px;
-    background-color: white;
+body {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .chart-container {
     max-width: 60%;
     margin: 5% auto;
+    ngx-charts-line-chart {
+      width: 100%;
+      height: 400px;
+    }
 }
+
+.info-container{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10;
+    margin: 0;
+    justify-content: space-between;
+    
+
+    div{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;    
+    }
+ 
+    h3 {
+        background-color: $my-color;
+        text-align: center;
+        color: white;
+        border-radius: 10px;
+        padding: 1% 2%;
+        margin: 0 auto;       
+    }
+
+    .info-box {
+        border: 2px solid $my-color;
+        padding: 10px;
+        text-align: center;
+        max-width: 10%;
+        margin: 10px;
+        border-radius: 10px;
+    }
+
+    .title-info-box {
+        color: grey;
+    }
+    .bold-value {
+        font-weight: bold;
+    }
+}
+  
+
+
 
 
 @media screen and (max-width: 1000px) {
@@ -78,7 +81,4 @@ $my-color: rgba(4,131,143,255);
         max-width: 100%;
     }
 
-    .goBackBtn{
-        font-size: xx-small;
-    }
 }
