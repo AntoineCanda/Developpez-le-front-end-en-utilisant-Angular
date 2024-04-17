@@ -14,15 +14,15 @@ export class OlympicService {
   private dataPieChartGraph$ = new BehaviorSubject<ISeriesData[]>([]);
   private dataLineChartGraph$ = new BehaviorSubject<ILineChartData[]>([]);
   private countryStatData$ = new BehaviorSubject<ICountryStatData[]>([]);
+  private numberOfOlympicsGame$ = new BehaviorSubject<number>(0);
+  private numberOfCountries$ = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient) {}
 
+  // Public methods 
+
   loadInitialData() {
      this.http.get<IOlympic[]>(this.olympicUrl).pipe(
-      tap(() => {
-        console.log("Into the loadInitialData");
-        console.log(this.olympics$);
-      }),
       catchError((error: Error) => {
         console.error('Error fetching Olympics data:', error.message);
         this.olympics$.error('An error occured');
@@ -33,6 +33,7 @@ export class OlympicService {
       this.olympics$.next(olympicsData);
       this._processOlympicsDataForPieChart(olympicsData);
       this._processOlympicsDataForLineChart(olympicsData);
+      this._processOlympicsDataForGlobalStats(olympicsData);
     });
   }
 
@@ -53,6 +54,15 @@ export class OlympicService {
     return this.countryStatData$.pipe(map(datas => datas.filter(data => data.country=== countryName )  ));
   }
 
+  public getNumberOfOlympicsGame(): Observable<number>{
+    return this.numberOfOlympicsGame$.asObservable();
+  }
+
+  public getNumberOfCountry(): Observable<number>{
+    return this.numberOfCountries$.asObservable();
+  }
+
+  // Private methods
 
   private _processOlympicsDataForPieChart(olympics: IOlympic[]){
     let res: ISeriesData[] = [];
@@ -65,7 +75,8 @@ export class OlympicService {
         }
         res.push({name: countryName, value: totalMedal});
       }
-      this.dataPieChartGraph$.next(res);// = res;
+      this.dataPieChartGraph$.next(res);
+
     } catch (error) {
       console.error(`An error occurred during the execution of the function: ${JSON.stringify(error)}`);
     } 
@@ -73,39 +84,65 @@ export class OlympicService {
 
   private _processOlympicsDataForLineChart(olympics: IOlympic[]){
     let lineChartDataArray: ILineChartData[] = [];
-    let countryStatDataArray: ICountryStatData[]= [];
 
-    for(let olympic of olympics){
-      const countryName = olympic.country;
-
-      const lineChartData: ILineChartData = {
-        name: countryName,
-        series: []
+    try {
+      for(let olympic of olympics){
+        const countryName = olympic.country;
+  
+        const lineChartData: ILineChartData = {
+          name: countryName,
+          series: []
+        }
+  
+        for(let participation of olympic.participations){
+          lineChartData.series.push({name: participation.year.toString(), value: participation.medalsCount});
+        }
+  
+        lineChartDataArray.push(lineChartData);
       }
-      
-      let totalAthlete = 0;
-      let totalMedal = 0;
-      for(let participation of olympic.participations){
-        totalAthlete += participation.athleteCount;
-        totalMedal += participation.medalsCount;
-        lineChartData.series.push({name: participation.year.toString(), value: participation.medalsCount});
-      }
+  
+      this.dataLineChartGraph$.next(lineChartDataArray);
 
-      const countryStatData: ICountryStatData = {
-        country: countryName,
-        totalAthlete: totalAthlete,
-        totalMedal: totalMedal,
-        totalParticipation: olympic.participations.length
-      }
-
-      lineChartDataArray.push(lineChartData);
-      countryStatDataArray.push(countryStatData);
+    } catch (error) {
+      console.error(`An error occurred during the execution of the function: ${JSON.stringify(error)}`);
     }
-
-    this.dataLineChartGraph$.next(lineChartDataArray);
-    this.countryStatData$.next(countryStatDataArray);
+    
   }
 
+  private _processOlympicsDataForGlobalStats(olympics: IOlympic[]){
+    try {
+      let countryStatDataArray: ICountryStatData[]= [];
+      let olympicGamesYear: Set<number> = new Set();
+
+      for(let olympic of olympics){
+        const countryName = olympic.country;
+
+        let totalAthlete = 0;
+        let totalMedal = 0;
+        for(let participation of olympic.participations){
+          olympicGamesYear.add(participation.year);
+          totalAthlete += participation.athleteCount;
+          totalMedal += participation.medalsCount;
+        }
+
+        const countryStatData: ICountryStatData = {
+          country: countryName,
+          totalAthlete: totalAthlete,
+          totalMedal: totalMedal,
+          totalParticipation: olympic.participations.length
+        }
+
+        countryStatDataArray.push(countryStatData);
+      }
+
+      this.numberOfOlympicsGame$.next(olympicGamesYear.size);
+      this.numberOfCountries$.next(countryStatDataArray.length);
+      this.countryStatData$.next(countryStatDataArray);
+
+    } catch (error) {
+      console.error(`An error occurred during the execution of the function: ${JSON.stringify(error)}`);
+    }
+  }
 }
 
 
