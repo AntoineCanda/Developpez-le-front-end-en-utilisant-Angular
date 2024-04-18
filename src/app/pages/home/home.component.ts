@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { ISeriesData } from 'src/app/core/models/Data.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit {
   isDoughnut: boolean = false;
 
   
-  constructor(private olympicService: OlympicService) {
+  constructor(private olympicService: OlympicService, private router:Router) {
   }
  
  
@@ -36,5 +37,8 @@ export class HomeComponent implements OnInit {
     return `${event.data.label}<br/> 🏅 ${event.data.value}`;
   }
 
+  goToDetailsPageOfCountry(event: any): void {
+    this.router.navigateByUrl(`/details/${event.name}`);
+  }
 }
 

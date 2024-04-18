@@ -29,7 +29,8 @@ export class DetailsComponent implements OnInit {
   countryName: string = "";
 
   constructor(private olympicService: OlympicService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
   
   ngOnInit(): void {
     this.countryName = this.route.snapshot.params['country'];
@@ -37,5 +38,8 @@ export class DetailsComponent implements OnInit {
     this.countryStatData$ = this.olympicService.getCountryStatData(this.countryName);
   }
   
+  goToHomePage(): void {
+    this.router.navigate(['/']);
+  }
  
 }
