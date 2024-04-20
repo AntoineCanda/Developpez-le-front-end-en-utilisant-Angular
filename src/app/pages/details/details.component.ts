@@ -10,7 +10,7 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
   styleUrl: './details.component.scss'
 })
 export class DetailsComponent implements OnInit {
-  
+  // Observable for the country data
   lineChartData$!: Observable<ILineChartData[]>;
   countryStatData$!: Observable<ICountryStatData[]>;
 
