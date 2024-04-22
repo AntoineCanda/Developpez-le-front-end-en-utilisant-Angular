@@ -1,37 +1,50 @@
 
-<button (click)="goToHomePage()" class="button">Retour</button>
-<div class="info-container">
-    <h3> {{countryName}}</h3>
-    <div *ngIf="countryStatData$ |async as countryStat">
-      <div class="info-box">
-        <div class="title-info-box">Number of entries</div>
-        <div class="bold-value">{{ countryStat[0].totalParticipation}}</div>
+<button (click)="goToHomePage()" class="button">Go back</button>
+<div *ngIf="(countryStatData$| async) as stat; else loading">
+  <div *ngIf="stat.length > 0; else errorCountry">
+    <div class="info-container">
+      <h3> {{countryName}}</h3>
+      <div *ngIf="countryStatData$ |async as countryStat">
+        <div class="info-box">
+          <div class="title-info-box">Number of entries</div>
+          <div class="bold-value">{{ countryStat[0].totalParticipation}}</div>
+        </div>
+      
+        <div class="info-box">
+          <div class="title-info-box">Number of medals </div>
+          <div class="bold-value">{{ countryStat[0].totalMedal}}</div>
+        </div>
+      
+        <div class="info-box">
+          <div class="title-info-box">Number of athletes </div>
+          <div class="bold-value">{{ countryStat[0].totalAthlete}}</div>
+        </div>
       </div>
-    
-      <div class="info-box">
-        <div class="title-info-box">Number of medals </div>
-        <div class="bold-value">{{ countryStat[0].totalMedal}}</div>
-      </div>
-    
-      <div class="info-box">
-        <div class="title-info-box">Number of athletes </div>
-        <div class="bold-value">{{ countryStat[0].totalAthlete}}</div>
-      </div>
+      
     </div>
-    
+  
+    <div class="chart-container" *ngIf="lineChartData$ |async as chartData">
+      <ngx-charts-line-chart
+          [legend]="legend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxis]="xAxis"
+          [yAxis]="yAxis"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          [timeline]="timeline"
+          [results]="chartData"
+      >
+    </ngx-charts-line-chart>
   </div>
-
-  <div class="chart-container" *ngIf="lineChartData$ |async as chartData">
-    <ngx-charts-line-chart
-        [legend]="legend"
-        [showXAxisLabel]="showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel"
-        [xAxis]="xAxis"
-        [yAxis]="yAxis"
-        [xAxisLabel]="xAxisLabel"
-        [yAxisLabel]="yAxisLabel"
-        [timeline]="timeline"
-        [results]="chartData"
-    >
-  </ngx-charts-line-chart>
+  </div>
+  
 </div>
+
+<ng-template #loading>
+  <p>We are getting the data. Please wait...</p>
+</ng-template>
+
+<ng-template #errorCountry>
+  <p>The country {{countryName}} is unknown. Please use another one.</p>
+</ng-template>

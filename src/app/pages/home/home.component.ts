@@ -24,8 +24,8 @@ export class HomeComponent implements OnInit {
   
   constructor(private olympicService: OlympicService, private router:Router) {
   }
- 
- 
+
+  // Public method
   
   ngOnInit(): void {
     this.dataPieChart$ = this.olympicService.getDataForPieChart();
@@ -33,6 +33,11 @@ export class HomeComponent implements OnInit {
     this.numberOfOlympicGames$ = this.olympicService.getNumberOfOlympicsGame();
   }
 
+  /**
+   * Function for having a custom tooltip for the pie chart graph
+   * @param event 
+   * @returns 
+   */
   tooltipText(event: any): string {
     return `${event.data.label}<br/> 🏅 ${event.data.value}`;
   }
