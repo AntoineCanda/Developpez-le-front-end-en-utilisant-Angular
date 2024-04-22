@@ -1,33 +1,39 @@
-
-<div class="info-container">
-  <h3> Medals per country</h3>
-  <div>
-    <div class="info-box">
-      <div class="title-info-box">Number of JOs</div>
-      <div class="bold-value">{{ numberOfOlympicGames$ | async}}</div>
+<div *ngIf="(numberOfCountries$| async) as list; else loading">
+  <div class="info-container">
+    <h3> Medals per country</h3>
+    <div>
+      <div class="info-box">
+        <div class="title-info-box">Number of JOs</div>
+        <div class="bold-value">{{ numberOfOlympicGames$ | async}}</div>
+      </div>
+    
+      <div class="info-box">
+        <div class="title-info-box">Number of countries </div>
+        <div class="bold-value">{{ numberOfCountries$ | async}}</div>
+      </div>
+    
     </div>
-  
-    <div class="info-box">
-      <div class="title-info-box">Number of countries </div>
-      <div class="bold-value">{{ numberOfCountries$ | async}}</div>
-    </div>
-  
+    
   </div>
   
+  <div class="chart-container">
+    <ngx-charts-pie-chart
+      [results]="dataPieChart$ | async"
+      [gradient]="gradient"
+      [legend]="showLegend"
+      [labels]="showLabels"
+      [doughnut]="isDoughnut"
+      [tooltipText]="tooltipText"
+      (select)="goToDetailsPageOfCountry($event)"
+    >
+    </ngx-charts-pie-chart>
+  </div>
 </div>
 
-<div class="chart-container">
-  <ngx-charts-pie-chart
-    [results]="dataPieChart$ | async"
-    [gradient]="gradient"
-    [legend]="showLegend"
-    [labels]="showLabels"
-    [doughnut]="isDoughnut"
-    [tooltipText]="tooltipText"
-    (select)="goToDetailsPageOfCountry($event)"
-  >
-  </ngx-charts-pie-chart>
-</div>
+<ng-template #loading>
+  <p>We are getting the data. Please wait...</p>
+</ng-template>
+
 
 
 
