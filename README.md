@@ -28,10 +28,6 @@ In addition to the default Angular architecture, the predefined structure includ
 
 There are three different pages within the project:
 
-## Project Pages
-
-There are three different pages within the project:
-
 - **Home Page** (`http://localhost:4200/`): Displays a pie chart representing the total number of medals each country has won during all Olympic Games.
 
 ![Home Page Example](homepageexample.PNG)
